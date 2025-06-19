@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Principal Sign Up | TTC MUHANGA</title>
+  <link rel="stylesheet" href="principalsignup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="form-box">
+      <div class="logo">
+        <img src="logo.png" alt="TTC Muhanga Logo">
+      </div>
+      <h2>Principal Sign Up</h2>
+      <form id="signup-form">
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="email" id="email" placeholder="Email address" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit" id="submit-btn">Create Account</button>
+      </form>
+      <p class="switch-link">Already have an account? <a href="principalsignin.html">Sign In</a></p>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; <span id="year"></span> TTC MUHANGA. All rights reserved.<br>
+    Developed by LE (Languages Education) Student <strong>NISHIMWE Joël Patient</strong></p>
+  </footer>
+
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyClUZhBQl8PHUtry4XoebfW5AWTK3F1vzg",
+      authDomain: "muhanga-001.firebaseapp.com",
+      projectId: "muhanga-001",
+      storageBucket: "muhanga-001.firebasestorage.app",
+      messagingSenderId: "573247415653",
+      appId: "1:573247415653:web:8d7430641ea5545cb5ed8c",
+      measurementId: "G-47CEHX3VYZ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const submitBtn = document.getElementById('submit-btn');
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Creating...";
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          name: name,
+          email: email,
+          role: "principal",
+          createdAt: serverTimestamp()
+        });
+
+        alert("Account created successfully! You can now log in.");
+        window.location.href = "principalsignin.html";
+      } catch (error) {
+        alert("Error: " + error.message);
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Create Account";
+      }
+    });
+
+    // Set footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

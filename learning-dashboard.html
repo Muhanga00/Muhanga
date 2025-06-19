@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Learning Dashboard | TTC MUHANGA</title>
+  <link rel="stylesheet" href="learning-dashboard.css" />
+</head>
+<body>
+  <header>
+    <h2>Welcome, <span id="user-name">Loading...</span></h2>
+    <button id="logout-btn">Logout</button>
+  </header>
+
+  <main>
+    <section>
+      <h3>All Users (Excluding Principals)</h3>
+      <div id="users-list">Loading users...</div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="learning-dashboard.html" title="P2P Chatting">
+      🗣️
+    </a>
+    <a href="creategroup.html" title="Group Chatting">
+      👥
+    </a>
+    <a href="assessments.html" title="Assement Part">
+      📋
+    </a>
+  </nav>
+
+  <script type="module" src="learning-dashboard.js"></script>
+   <!-- Notification sound -->
+  <audio id="notification-audio" src="notification.mp3" preload="auto"></audio>
+</body>
+</html>

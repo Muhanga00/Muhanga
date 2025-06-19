@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create or Join Group | TTC MUHANGA</title>
+  <link rel="stylesheet" href="creategroup.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #3333;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    #groups-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 60px;
+      align: center;
+    }
+
+    .group-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.danger-btn, .leave-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-top: 6px;
+  cursor: pointer;
+}
+.notif-icon {
+  float: right;
+  font-size: 18px;
+  color: green;
+}
+
+    .group-card:hover {
+      transform: scale(1.03);
+    }
+
+    .group-card h4 {
+      margin: 0 0 8px;
+    }
+
+    .group-card small {
+      color: gray;
+    }
+
+    .create-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 28px;
+      padding: 12px 16px;
+      border-radius: 50%;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 24px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+    }
+
+    .modal input, .modal textarea {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .modal button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #222;
+      color: #eee;
+      font-size: 14px;
+      margin-top: 40px;
+    }
+
+    footer strong {
+      color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <h2>Welcome to Groups</h2>
+  <input id="search-groups" placeholder="Search groups..." />
+<button id="toggle-my-groups">Show My Groups</button>
+<div id="groups-list"></div>
+  <div id="groups-list"></div>
+  <button class="create-btn" id="open-modal">+</button>
+
+  <!-- Modal -->
+  <div class="modal" id="group-modal">
+    <div class="modal-content">
+      <h3>Create Group</h3>
+      <input type="text" id="group-name" placeholder="Group Name" required />
+      <textarea id="group-desc" placeholder="Group Description"></textarea>
+      <button id="create-group-btn">Create</button>
+    </div>
+  </div>
+
+  <script type="module" src="creategroup.js"></script>
+
+  <footer>
+    &copy; 2025 TTC Muhanga. Developed by LE (Language Education) Student
+    <p><strong>NISHIMWE Joel Patient</strong>.</p>
+  </footer>
+</body>
+</html>

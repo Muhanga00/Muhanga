@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Assessment Results - TTC Muhanga</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 1rem;
+      background: #f9f9f9;
+    }
+    h2 {
+      margin-bottom: 1rem;
+    }
+    .result-card {
+      background: #fff;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .answer {
+      margin-left: 1rem;
+      padding: 0.5rem;
+      background: #f1f1f1;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+    #export-btn {
+      margin-bottom: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #export-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>Assessment Results</h2>
+  <button id="export-btn">Export to Excel</button>
+  <div id="results-container"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import {
+      getFirestore, collection, query, where, getDocs, doc
+    } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+    import {
+      getAuth, onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyClUZhBQl8PHUtry4XoebfW5AWTK3F1vzg",
+      authDomain: "muhanga-001.firebaseapp.com",
+      projectId: "muhanga-001",
+      storageBucket: "muhanga-001.firebasestorage.app",
+      messagingSenderId: "573247415653",
+      appId: "1:573247415653:web:8d7430641ea5545cb5ed8c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const resultsContainer = document.getElementById("results-container");
+    const exportBtn = document.getElementById("export-btn");
+
+    let currentUser = null;
+    let allUsers = {};
+    let groupedAnswers = {};
+
+    const aid = new URLSearchParams(window.location.search).get("aid");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return location.href = "signin.html";
+      currentUser = user;
+
+      const usersSnap = await getDocs(collection(db, "users"));
+      usersSnap.docs.forEach(doc => {
+        const data = doc.data();
+        allUsers[data.uid] = data.name || "Unknown";
+      });
+
+      loadResults();
+    });
+
+    async function loadResults() {
+      const q = query(collection(db, "answers"), where("assessmentId", "==", aid));
+      const snap = await getDocs(q);
+
+      const answers = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const grouped = {};
+
+      answers.forEach(answer => {
+        if (!grouped[answer.userId]) {
+          grouped[answer.userId] = [];
+        }
+        grouped[answer.userId].push(answer);
+      });
+
+      groupedAnswers = grouped; // expose for export
+
+      resultsContainer.innerHTML = "";
+
+      for (const userId in grouped) {
+        const div = document.createElement("div");
+        div.className = "result-card";
+
+        const userAnswers = grouped[userId];
+        const name = allUsers[userId] || "Unknown";
+
+        div.innerHTML = `<h3>${name}</h3>`;
+
+        userAnswers.forEach(a => {
+          const submittedAt = a.submittedAt?.toDate?.().toLocaleString() || "N/A";
+          div.innerHTML += `
+            <div class="answer">
+              <strong>Q:</strong> ${a.questionText}<br>
+              <strong>Answer:</strong> ${a.answer}<br>
+              <small>${submittedAt}</small>
+            </div>
+          `;
+        });
+
+        resultsContainer.appendChild(div);
+      }
+    }
+
+    exportBtn.addEventListener("click", () => {
+      const rows = [["Learner Name", "Question", "Answer", "Submitted At"]];
+
+      for (const userId in groupedAnswers) {
+        const answers = groupedAnswers[userId];
+        const name = allUsers[userId] || "Unknown";
+
+        answers.forEach(a => {
+          const submittedAt = a.submittedAt?.toDate?.().toLocaleString() || "N/A";
+          rows.push([name, a.questionText, a.answer, submittedAt]);
+        });
+      }
+
+      const csvContent = rows.map(row =>
+        row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(",")
+      ).join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "assessment_results.csv";
+      a.click();
+    });
+  </script>
+</body>
+</html>

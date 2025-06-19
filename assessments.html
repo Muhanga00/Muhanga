@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Assessments - TTC Muhanga</title>
+  <link rel="stylesheet" href="assessments.css">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <img src="logo.png" alt="TTC Logo">
+      <h1>Assessments</h1>
+      <input type="text" id="search-input" placeholder="Search assessments..." />
+<div id="assessments-container"></div>
+    </div>
+  </header>
+
+  <main>
+    <div id="assessments-container"></div>
+  </main>
+
+  <button id="add-btn">+</button>
+
+  <!-- Modal for creating assessment -->
+  <div id="create-modal" class="modal">
+    <div class="modal-content">
+      <h3>Create Assessment</h3>
+      <input type="text" id="assessment-name" placeholder="Assessment Name">
+      <textarea id="assessment-desc" placeholder="Description"></textarea>
+      <textarea id="assessment-rules" placeholder="Rules"></textarea>
+      <input type="text" id="assessment-code" placeholder="6-digit Code" maxlength="6" readonly>
+      <button id="continue-btn">Continue</button>
+    </div>
+  </div>
+
+  <script type="module" src="assessments.js"></script>
+</body>
+</html>

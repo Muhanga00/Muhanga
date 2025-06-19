@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>P2P Chat | TTC MUHANGA</title>
+  <link rel="stylesheet" href="chat.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="chat-header">
+    <img src="logo.png" alt="TTC Muhanga Logo" class="logo" />
+    <h1 id="chat-with-name">Chat</h1>
+    <button id="logout-btn">Logout</button>
+  </header>
+
+  <!-- Main -->
+  <main class="chat-container">
+    <section id="messages" class="messages"></section>
+    <form id="chat-form" class="chat-form">
+      <input type="text" id="message-input" placeholder="Type a message..." required />
+      <button type="submit">Send</button>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>Developed by LE Student <strong>NISHIMWE Joël Patient</strong></p>
+  </footer>
+
+  <!-- Firebase Chat Script -->
+  <script type="module" src="chat.js"></script>
+</body>
+</html>

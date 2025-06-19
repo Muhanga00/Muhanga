@@ -1,0 +1,71 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #121212;
+  color: #fff;
+}
+
+header {
+  background: #1f1f1f;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+
+#logout-btn {
+  padding: 0.5rem 1rem;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+main {
+  padding: 1rem;
+}
+
+#users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.user-card {
+  background-color: #1e1e1e;
+  padding: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.user-card:hover {
+  background-color: #2b2b2b;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #1f1f1f;
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  border-top: 1px solid #333;
+}
+
+.bottom-nav a {
+  color: white;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+.notification-dot {
+  margin-left: 10px;
+  color: red;
+  font-weight: bold;
+}
